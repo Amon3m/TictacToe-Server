@@ -46,11 +46,6 @@ public class DataAccessLayer {
 
 //            Logger.getLogger(DataAccessLayer.class.getName()).log(Level.SEVERE, null, ex);
         }
-            System.out.println("RST =  " +rst );
-
-          System.out.println("I reached here !!");
-        
-        
 
         return rst;
     }
