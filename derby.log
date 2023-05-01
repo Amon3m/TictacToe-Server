@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Mon May 01 22:09:37 AST 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0187-d8b8-6b8d-00000a459c48 
+on database directory C:\Users\ahmed\Desktop\java project\TictacToeSever\tictactoedb with class loader sun.misc.Launcher$AppClassLoader@55f96302 
+Loaded from file:/C:/Users/ahmed/Desktop/java%20project/TictacToeSever/dist/run696953362/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_202-b08
+user.dir=C:\Users\ahmed\Desktop\java project\TictacToeSever
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
