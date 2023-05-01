@@ -54,6 +54,12 @@ public class TictacToeSever extends Application {
 
        
 
+        DatabaseHandler databaseHandler = new DatabaseHandler();
+        DataAccessLayer dataAccessLayer = new DataAccessLayer();
+
+        ServerSocket serverSocket = new ServerSocket(3333);
+        Server server = new Server(serverSocket,dataAccessLayer );
+        server.startServer();
         
 
         Parent root = FXMLLoader.load(getClass().getResource("serverChart.fxml"));
@@ -70,12 +76,7 @@ public class TictacToeSever extends Application {
      */
     public static void main(String[] args) throws IOException {
         launch(args);
-        DatabaseHandler databaseHandler = new DatabaseHandler();
-        DataAccessLayer dataAccessLayer = new DataAccessLayer();
 
-        ServerSocket serverSocket = new ServerSocket(3333);
-        Server server = new Server(serverSocket,dataAccessLayer );
-        server.startServer();
 
         
 
