@@ -19,12 +19,19 @@ public class TictacToeSever extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("serverChart.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("MainServer.fxml"));
         
-        Scene scene = new Scene(root);
+         Scene scene = new Scene(root, 800, 600);
         
         stage.setScene(scene);
         stage.show();
+
+        // Fix the size of the stage
+        stage.setResizable(false);
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
+        stage.setMaxWidth(800);
+        stage.setMaxHeight(600);
     }
 
     /**

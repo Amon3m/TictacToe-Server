@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+
+<AnchorPane id="AnchorPane" fx:id="parent" prefHeight="600.0" prefWidth="800.0" stylesheets="@../css/splashui.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tictactoesever.MainServerController">
+   <children>
+      <StackPane layoutX="-10.0" layoutY="-7.0" prefHeight="444.0" prefWidth="634.0">
+         <children>
+            <ImageView fitHeight="610.0" fitWidth="968.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/splash11.png" />
+               </image>
+            </ImageView>
+            <BorderPane prefHeight="456.0" prefWidth="631.0">
+               <bottom>
+                  <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Button fx:id="playerStateBtn" layoutX="304.0" layoutY="85.0" mnemonicParsing="false" onAction="#StatusOnClick" styleClass="signupbutton" text="Players Status" />
+                     </children>
+                  </Pane>
+               </bottom>
+               <center>
+                  <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <ToggleButton fx:id="onServerBtn" layoutX="304.0" layoutY="166.0" mnemonicParsing="false" onAction="#toggleOnClick" prefHeight="52.0" prefWidth="282.0" stylesheets="@../css/AmonemStyleSheet.css" text="Server is off" />
+                     </children>
+                  </Pane>
+               </center>
+               <top>
+                  <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <ImageView fitHeight="243.0" fitWidth="328.0" layoutX="265.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/logogroup.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+               </top>
+            </BorderPane>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>
