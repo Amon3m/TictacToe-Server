@@ -31,6 +31,7 @@ public class TictacToeSever extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
+ 
 //        databaseHandler = new DatabaseHandler();
 //        dataAccessLayer = new DataAccessLayer();
 //        Player player = new Player("asdsdad","Haaaamza");
@@ -60,15 +61,27 @@ public class TictacToeSever extends Application {
         ServerSocket serverSocket = new ServerSocket(3333);
         Server server = new Server(serverSocket,dataAccessLayer );
         server.startServer();
+
         
 
-        Parent root = FXMLLoader.load(getClass().getResource("serverChart.fxml"));
+       
+        Parent root = FXMLLoader.load(getClass().getResource("MainServer.fxml"));
+        
+         Scene scene = new Scene(root, 800, 600);
+
         
         
-        Scene scene = new Scene(root);
+
         
         stage.setScene(scene);
         stage.show();
+
+        // Fix the size of the stage
+        stage.setResizable(false);
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
+        stage.setMaxWidth(800);
+        stage.setMaxHeight(600);
     }
 
     /**
