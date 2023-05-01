@@ -40,11 +40,58 @@ public class DataAccessLayer {
             rst=preparedStatement.executeUpdate();
             connection.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DataAccessLayer.class.getName()).log(Level.SEVERE, null, ex);
+            rst = 0;
+            
+            System.out.println("Username " +player.getUsername()+"  already exists!!");
+
+//            Logger.getLogger(DataAccessLayer.class.getName()).log(Level.SEVERE, null, ex);
         }
+            System.out.println("RST =  " +rst );
+
+          System.out.println("I reached here !!");
+        
         
 
         return rst;
     }
+    
+  
+    
+    public List<Player> getAll()
+    {
+        List<Player> players=new ArrayList<Player>();
+        
+        try {
+            //Statement stmt = con.createStatement();
+            PreparedStatement preparedStatement= connection.prepareStatement("SELECT * FROM PLAYER");
+           
+           
+             ResultSet rst= preparedStatement.executeQuery();
+             
+             while(rst.next())
+             {
+                 String firstName=rst.getString(1);
+                 String password=rst.getString(2);
+                 String imagePath=rst.getString(3);
+                 int score=rst.getInt(4);
+                 int status=rst.getInt(5);
+                 Player cont=new Player(firstName, password,imagePath,score,status);
+                // ContactsDTO cont1=new ContactsDTO(rst.getInt(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5), rst.getInt(6));
+                 
+                 players.add(cont);
+             }
+            
+            connection.close();
+
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DataAccessLayer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return players;
+
+}
+    
+    
+    
     
 }
