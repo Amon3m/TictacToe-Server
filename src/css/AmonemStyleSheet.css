@@ -63,6 +63,19 @@ and open the template in the editor.
         -fx-text-fill:#3B1787;
 
 }
+.backbutton{
+    
+    -fx-graphic: url('/assets/back.png');
+        -fx-background-color: linear-gradient(to right, #59DFFF, #788CFE);
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+      -fx-border-color: red;
+          -fx-border-radius: 10px;
+
+
+
+    
+}
 
 .square:hover {
     -fx-background-color: #C0C0C0;
@@ -85,6 +98,28 @@ and open the template in the editor.
     -fx-column-halignment: center;
     -fx-row-valignment: center;
 }
+.toggle-button {
+-fx-background-color: linear-gradient(to right, #59DFFF, #788CFE);
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-pref-width: 250px;
+    -fx-pref-height: 30px;
+    -fx-border-radius: 5px;
+     -fx-border-radius: 5px;
+}
+
+.toggle-button:selected {
+-fx-background-color: linear-gradient(to right, #2DA4D4, #4D63B8);
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-pref-width: 250px;
+    -fx-pref-height: 30px;
+    -fx-border-radius: 5px;
+     -fx-border-radius: 5px;
+
+
+}
+
 
 
 
