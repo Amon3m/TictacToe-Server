@@ -1,0 +1,96 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Apr 29, 2023, 2:48:15 PM
+    Author     : ahmed
+*/
+
+
+/* Style the game board */
+
+.label1 {
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 18px;
+}
+
+
+
+.border-pane {
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-border-radius: 5px;
+
+
+}
+
+.gridpan{
+    
+  -fx-background-color: #A79CDA;
+   -fx-background-radius: 20px 20px 20px 20px;
+
+    -fx-padding: 20px;
+    -fx-background-color: #A79CDA;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-alignment:CENTER;
+    -fx-column-halignment: center;
+    -fx-row-valignment: center;
+    
+}
+/* Style the game squares */
+.square1 {
+    -fx-background-color: #3B1787;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 150px;
+    -fx-background-size: 10px 10px;
+    -fx-text-fill:#3B1787;
+
+    -fx-padding : 10 20 10 20;  
+}
+.square2 {
+    -fx-background-color: #3B1787;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 150px;
+    -fx-background-size: 10px 10px;
+    -fx-padding: 10 20 10 20;
+        -fx-text-fill:#3B1787;
+
+}
+
+.square:hover {
+    -fx-background-color: #C0C0C0;
+}
+
+/* Style the X and O symbols */
+.symbol {
+    -fx-font-size: 50px;
+    -fx-text-alignment: center;
+}
+.imageBG{
+    fx-background-color: #A79CDA;
+   -fx-background-radius: 20px 20px 20px 20px;
+   
+    -fx-padding: 20px;
+    -fx-background-color: #A79CDA;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-alignment:CENTER;
+    -fx-column-halignment: center;
+    -fx-row-valignment: center;
+}
+
+
+
+/* Style the game status label */
+#game-status {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+}

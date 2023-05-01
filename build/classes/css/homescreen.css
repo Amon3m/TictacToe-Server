@@ -1,0 +1,62 @@
+
+.root
+{
+   
+   -fx-background-image: url("/assets/full_background.png");
+   -fx-background-size:cover;
+}
+
+#singleBtn
+{
+    -fx-background-color:#00D1FF;
+    -fx-background-radius: 15px;
+    -fx-pref-height: 60px;
+    -fx-pref-width: 448px;
+    
+    /*-fx-font-family: "Font";*/
+    -fx-text-fill: white;
+    
+}
+#twoPlayersBtn
+{
+    -fx-background-color:#FF76CB;
+    -fx-background-radius: 15px;
+    -fx-pref-height: 60px;
+    -fx-pref-width: 448px;
+    
+    
+    -fx-text-fill: white;
+    
+}
+#onlineBtn
+{
+    -fx-background-color:#FFCE36;
+    -fx-background-radius: 15px;
+    -fx-pref-height: 60px;
+    -fx-pref-width: 448px;
+    
+    
+    -fx-text-fill: white;
+    
+}
+
+.singleImg
+{
+    -fx-image: url("/assets/single.png");
+    -fx-fit-width: 116px;
+    -fx-fit-height: 116px;
+}
+/*#twoPlayersImg
+{
+    -fx-image: url("assets/multi players 1.png");
+    -fx-fit-width: 116px;
+    -fx-fit-height: 116px;
+}
+#onlineImg
+{
+    -fx-image: url("assetsonline.png");
+    -fx-fit-width: 116px;
+    -fx-fit-height: 116px;
+}*/
+
+

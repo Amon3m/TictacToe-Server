@@ -1,0 +1,74 @@
+.linear-grad
+{
+    -fx-background-image: url("assets/background.png");
+}
+.loginPanel
+{
+  
+    /*-fx-background-color: #B144B6 ;*/
+    /*-fx-opacity: 0.17;*/
+      
+}
+@font-face {
+    font-family: 'MyFont';
+    src: url('C:\Users\Bassem\Desktop\Project\TicTacToe\src\assets\fonts\ChunkFive-Regular.otf');
+}
+
+.textfield
+{
+
+   -fx-font-size: 23;
+   -fx-border-color: #C9BBFF;
+   -fx-border-width: 2;
+   -fx-padding: 10 10 10 10;
+   -fx-background-color: #C9BBFF;
+   -fx-pref-height: 65px;
+   -fx-pref-width: 573px;
+   -fx-border-radius: 30;
+   -fx-background-radius: 30;
+   -fx-font-family: 'MyFont';
+   
+  
+
+   
+   
+
+   -fx-text-fill: linear-gradient(to bottom left,#748DFE,#788CFE);
+   -fx-prompt-text-fill: linear-gradient(to bottom left,#748DFE,#788CFE);
+}
+
+.button1
+{
+   -fx-font-size: 26;
+   /*-fx-background-color: transparent ;*/
+   -fx-text-fill: white;
+   -fx-background-color: linear-gradient(to bottom left,#59DFFF,#788CFE);
+   -fx-pref-height: 65px;
+   -fx-pref-width: 573px;
+   -fx-border-radius: 30;
+   -fx-background-radius: 30;
+   -fx-font-family: 'MyFont';
+   
+  
+      
+}
+.buttonAuth2
+{
+   -fx-font-size: 23;
+   /*-fx-background-color: transparent ;*/
+   -fx-text-fill: white;
+   -fx-border-radius: 15;
+   -fx-background-radius: 15;
+   -fx-opacity: 0.70;
+   -fx-border-radius: 15;
+   -fx-background-color: linear-gradient(to bottom left,#3D1013,#A933A4);
+   -fx-font-family: 'MyFont';
+  
+      
+}
+.labelStyle
+{
+   -fx-font-size: 30;   
+   -fx-text-fill: linear-gradient(to bottom left,#748DFE,#788CFE);
+   -fx-font-family: 'MyFont';
+}
