@@ -54,23 +54,10 @@ public class TictacToeSever extends Application {
 //        });
 
        
-
-        DatabaseHandler databaseHandler = new DatabaseHandler();
-        DataAccessLayer dataAccessLayer = new DataAccessLayer();
-
-        ServerSocket serverSocket = new ServerSocket(3333);
-        Server server = new Server(serverSocket,dataAccessLayer );
-        server.startServer();
-
-        
-
-       
         Parent root = FXMLLoader.load(getClass().getResource("MainServer.fxml"));
         
          Scene scene = new Scene(root, 800, 600);
 
-        
-        
 
         
         stage.setScene(scene);
@@ -82,6 +69,15 @@ public class TictacToeSever extends Application {
         stage.setMinHeight(600);
         stage.setMaxWidth(800);
         stage.setMaxHeight(600);
+        
+
+        DatabaseHandler databaseHandler = new DatabaseHandler();
+        DataAccessLayer dataAccessLayer = new DataAccessLayer();
+
+        ServerSocket serverSocket = new ServerSocket(3333);
+        Server server = new Server(serverSocket,dataAccessLayer );
+        server.startServer();
+
     }
 
     /**

@@ -12,6 +12,7 @@ import java.io.IOException;
 
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Vector;
 import models.Player;
 
 /**
@@ -20,7 +21,7 @@ import models.Player;
  */
 public class ClientHandler implements Runnable {
 
-    public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+    public static Vector<ClientHandler> clientHandlers = new Vector<>();
     private Socket socket;
     private DataInputStream inputStream;
     private DataOutputStream outputStream;
