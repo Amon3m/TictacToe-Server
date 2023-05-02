@@ -29,7 +29,7 @@
                <center>
                   <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <ToggleButton fx:id="onServerBtn" layoutX="304.0" layoutY="166.0" mnemonicParsing="false" onAction="#toggleOnClick" prefHeight="52.0" prefWidth="282.0" stylesheets="@../css/AmonemStyleSheet.css" text="Server is off" />
+                        <ToggleButton fx:id="onServerBtn" layoutX="304.0" layoutY="166.0" mnemonicParsing="false" onAction="#toggleOnClick" prefHeight="52.0" prefWidth="282.0" stylesheets="@../css/AmonemStyleSheet.css" text="Server is on" />
                      </children>
                   </Pane>
                </center>
