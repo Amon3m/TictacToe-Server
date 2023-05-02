@@ -12,6 +12,7 @@ import java.net.ServerSocket;
 import java.util.Iterator;
 import java.util.List;
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -31,46 +32,13 @@ public class TictacToeSever extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
- 
-//        databaseHandler = new DatabaseHandler();
-//        dataAccessLayer = new DataAccessLayer();
-//        Player player = new Player("asdsdad","Haaaamza");
-//        dataAccessLayer.insert(player);
-//        
-//        List<Player> players = dataAccessLayer.getAll();
-//        for (Player p : players){
-//            System.out.println(p.getUsername());
-//            System.out.println(p.getPassword());
-//            System.out.println(p.getImagePath());
-//           
-//        }
 
-
-//        stage.setOnCloseRequest(event -> {
-//            // send closing message to server
-//            if(server != null){
-//                server.closeServerSocket();
-//            }
-//        });
-
-       
-
-        DatabaseHandler databaseHandler = new DatabaseHandler();
-        DataAccessLayer dataAccessLayer = new DataAccessLayer();
-
-        ServerSocket serverSocket = new ServerSocket(3333);
-        Server server = new Server(serverSocket,dataAccessLayer );
-        server.startServer();
-
-        
 
        
         Parent root = FXMLLoader.load(getClass().getResource("MainServer.fxml"));
         
          Scene scene = new Scene(root, 800, 600);
 
-        
-        
 
         
         stage.setScene(scene);
@@ -82,6 +50,24 @@ public class TictacToeSever extends Application {
         stage.setMinHeight(600);
         stage.setMaxWidth(800);
         stage.setMaxHeight(600);
+        
+
+        Task<Void> serverTask = new Task<Void>(){
+           @Override
+           protected Void call() throws Exception {
+                Server server = Server.getInstance();
+                server.startServer();
+
+                return null;
+           }
+
+        };
+        new Thread(serverTask).start();
+
+
+
+        
+
     }
 
     /**
@@ -98,3 +84,6 @@ public class TictacToeSever extends Application {
 
     
 }
+
+
+

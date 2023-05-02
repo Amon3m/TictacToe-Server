@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +26,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import server.Server;
 
 /**
  * FXML Controller class
@@ -38,7 +42,7 @@ public class MainServerController implements Initializable {
     private ToggleButton onServerBtn;
     @FXML
     private AnchorPane parent;
-    private boolean flag=true;
+    private boolean running = true;
 
     /**
      * Initializes the controller class.
@@ -59,41 +63,67 @@ public class MainServerController implements Initializable {
                 ((TextField) node).setFont(myCustomFont);
             }
         }
+
     }
 
     @FXML
     private void StatusOnClick(ActionEvent event) throws IOException {
-            goToServerChart(event);
+        goToServerChart(event);
 
     }
 
     @FXML
     private void toggleOnClick(ActionEvent event) {
-         ToggleButton onClick = (ToggleButton) event.getSource();
-         if (flag){
-            onClick.setText("Server is on");
-            flag=false;
-         }
-         
-         else{onClick.setText("Server is off");
-                     flag=true;
-}
+
+        ToggleButton onClick = (ToggleButton) event.getSource();
+        if (running) {
+
+            onClick.setText("Server is Off");
+            running = false;
+
+        } else {
+
+            onClick.setText("Server is On");
+            running = true;
+
+        }
+        toggleServer();
+
     }
-    private void navigate(ActionEvent event, String url) throws IOException{
-    
-                // Load the FXML file for the first screen
+
+    private void toggleServer() {
+
+        Task<Void> serverTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Server server = Server.getInstance();
+                if (running) {
+                    server.startServer();
+                } else {
+                    server.stopServer();
+                }
+
+                return null;
+            }
+
+        };
+        new Thread(serverTask).start();
+    }
+
+    private void navigate(ActionEvent event, String url) throws IOException {
+
+        // Load the FXML file for the first screen
         Parent root;
         Stage stage;
-        
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource(url));
         root = loader.load();
-        stage =  (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
 
-      
     }
 
     @FXML
