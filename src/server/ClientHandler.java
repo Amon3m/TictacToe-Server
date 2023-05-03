@@ -87,20 +87,13 @@ public class ClientHandler implements Runnable {
                         break;
                 }                
                 
-                
-                
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SQLException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        } catch (Exception e) {
+            closeEverything();
+            System.out.println("Client Disconnected");
+            
+        } 
+        
 
     }
 
