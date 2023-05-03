@@ -9,11 +9,17 @@ import database.DataAccessLayer;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
-import models.Player;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Player;
+
 
 /**
  *
@@ -25,6 +31,7 @@ public class ClientHandler implements Runnable {
     private Socket socket;
     private DataInputStream inputStream;
     private DataOutputStream outputStream;
+    private ObjectOutputStream outputObjectStream;
     DataAccessLayer dataAccessLayer;
 
 
@@ -33,9 +40,17 @@ public class ClientHandler implements Runnable {
             this.socket = socket;
             this.inputStream = new DataInputStream(socket.getInputStream());
             this.outputStream = new DataOutputStream(socket.getOutputStream());
+            this.outputObjectStream=new ObjectOutputStream(socket.getOutputStream());
             this.dataAccessLayer = dataAccessLayer;
             clientHandlers.add(this);
+            
+            List<Player>players=dataAccessLayer.getAll();
+            System.out.println("ClientHandler constractor");
+                        for(int i=0;i<players.size();i++){
+                            System.out.println(players.get(i).getUsername());
+                            System.out.println(players.get(i).getPassword());
 
+                      }
         } catch (IOException e) {
             closeEverything();
         }
@@ -49,17 +64,20 @@ public class ClientHandler implements Runnable {
                 String requestType = inputStream.readUTF();
                 
                 switch (requestType) {
-                    case "login":
+                    case "signin":
                         String username = inputStream.readUTF();
                         String password = inputStream.readUTF();
-                        boolean success = logInPlayer(username, password);
-                        outputStream.writeBoolean(success);
+                        Player player = logInPlayer(username, password);
+                        System.out.println("playerobject Username before send : "+player.getUsername());
+                        System.out.println("playerobject Password before send : "+player.getPassword());
+                        outputObjectStream.writeObject(player);
                         break;
                     case "signup":
                         String newUser = inputStream.readUTF();
                         String newPassword = inputStream.readUTF();
                         boolean added = signUpPlayer(newUser, newPassword);
                         outputStream.writeBoolean(added);
+             
                         break;
                     case "whatever":
                         // handle closing of connection
@@ -74,6 +92,8 @@ public class ClientHandler implements Runnable {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 socket.close();
@@ -125,10 +145,17 @@ private boolean signUpPlayer(String username, String password) {
 
     
     //Edit this
-    private boolean logInPlayer(String username, String password) {
+    private Player logInPlayer(String username, String password) throws SQLException {
         System.out.println("USER try to login");
-        return true;
-    }
+        
+        Player rePlayer = dataAccessLayer.checkPlayerExists(username,password);
+        if(rePlayer.equals(null)){
+        
+            System.out.println("logInPlayer not success");
+        
+        }else{System.out.println("logInPlayer success");
+}
+    return rePlayer;}
     
     
     
