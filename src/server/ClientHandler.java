@@ -5,6 +5,12 @@
  */
 package server;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import database.DataAccessLayer;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -18,8 +24,8 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jdk.nashorn.internal.parser.JSONParser;
 import model.Player;
-
 
 /**
  *
@@ -34,23 +40,22 @@ public class ClientHandler implements Runnable {
     private ObjectOutputStream outputObjectStream;
     DataAccessLayer dataAccessLayer;
 
-
     public ClientHandler(Socket socket, DataAccessLayer dataAccessLayer) {
         try {
             this.socket = socket;
             this.inputStream = new DataInputStream(socket.getInputStream());
             this.outputStream = new DataOutputStream(socket.getOutputStream());
-            this.outputObjectStream=new ObjectOutputStream(socket.getOutputStream());
+            this.outputObjectStream = new ObjectOutputStream(socket.getOutputStream());
             this.dataAccessLayer = dataAccessLayer;
             clientHandlers.add(this);
-            
-            List<Player>players=dataAccessLayer.getAll();
-            System.out.println("ClientHandler constractor");
-                        for(int i=0;i<players.size();i++){
-                            System.out.println(players.get(i).getUsername());
-                            System.out.println(players.get(i).getPassword());
 
-                      }
+            List<Player> players = dataAccessLayer.getAll();
+            System.out.println("ClientHandler constractor");
+            for (int i = 0; i < players.size(); i++) {
+                System.out.println(players.get(i).getUsername());
+                System.out.println(players.get(i).getPassword());
+
+            }
         } catch (IOException e) {
             closeEverything();
         }
@@ -62,22 +67,29 @@ public class ClientHandler implements Runnable {
         try {
             while (!socket.isClosed()) {
                 String requestType = inputStream.readUTF();
+                System.out.println(requestType);
+
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                JsonNode rootNode = objectMapper.readTree(requestType);
+                System.out.println(rootNode.get("username").asText());
+                System.out.println(rootNode.get("password").asText());
+                System.out.println(rootNode.get("func").asText());
                 
-                switch (requestType) {
+
+                switch (rootNode.get("func").asText()) {
                     case "signin":
-                        String username = inputStream.readUTF();
-                        String password = inputStream.readUTF();
+                        String username = rootNode.get("username").asText();
+                        String password = rootNode.get("password").asText();
                         Player player = logInPlayer(username, password);
-                        System.out.println("playerobject Username before send : "+player.getUsername());
-                        System.out.println("playerobject Password before send : "+player.getPassword());
+                        System.out.println("playerobject Username before send : " + player.getUsername());
+                        System.out.println("playerobject Password before send : " + player.getPassword());
                         outputObjectStream.writeObject(player);
                         break;
                     case "signup":
-                        String newUser = inputStream.readUTF();
-                        String newPassword = inputStream.readUTF();
-                        boolean added = signUpPlayer(newUser, newPassword);
+                        boolean added = signUpPlayer(rootNode.get("username").asText(), rootNode.get("password").asText());
                         outputStream.writeBoolean(added);
-             
+
                         break;
                     case "whatever":
                         // handle closing of connection
@@ -85,10 +97,8 @@ public class ClientHandler implements Runnable {
                     default:
                         // handle unknown request type
                         break;
-                }                
-                
-                
-                
+                }
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -103,7 +113,6 @@ public class ClientHandler implements Runnable {
         }
 
     }
-
 
     //method to remove the clientHandler
     public void removeClientHandler() {
@@ -127,39 +136,33 @@ public class ClientHandler implements Runnable {
             System.out.println("Error: " + e.getMessage());
         }
     }
-    
-    
-private boolean signUpPlayer(String username, String password) {
+
+    private boolean signUpPlayer(String username, String password) {
         try {
-            Player player = new Player(username,password);
+            Player player = new Player(username, password);
             int res = dataAccessLayer.insert(player);
-            return res >0;
-            
+            return res > 0;
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
-       
+
     }
 
-
-    
     //Edit this
     private Player logInPlayer(String username, String password) throws SQLException {
         System.out.println("USER try to login");
-        
-        Player rePlayer = dataAccessLayer.checkPlayerExists(username,password);
-        if(rePlayer.equals(null)){
-        
+
+        Player rePlayer = dataAccessLayer.checkPlayerExists(username, password);
+        if (rePlayer.equals(null)) {
+
             System.out.println("logInPlayer not success");
-        
-        }else{System.out.println("logInPlayer success");
-}
-    return rePlayer;}
-    
-    
-    
-    
-}
 
+        } else {
+            System.out.println("logInPlayer success");
+        }
+        return rePlayer;
+    }
 
+}
