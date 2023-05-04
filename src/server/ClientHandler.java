@@ -5,6 +5,12 @@
  */
 package server;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import database.DataAccessLayer;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -19,6 +25,8 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.CustomException;
+import jdk.nashorn.internal.parser.JSONParser;
+
 import model.Player;
 
 /**
@@ -34,6 +42,7 @@ public class ClientHandler implements Runnable {
     private ObjectOutputStream outputObjectStream;
     DataAccessLayer dataAccessLayer;
     Player player;
+
 
     public ClientHandler(Socket socket, DataAccessLayer dataAccessLayer) {
         try {
@@ -63,10 +72,20 @@ public class ClientHandler implements Runnable {
             while (!socket.isClosed()) {
                 String requestType = inputStream.readUTF();
 
-                switch (requestType) {
+                System.out.println(requestType);
+
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                JsonNode rootNode = objectMapper.readTree(requestType);
+                System.out.println(rootNode.get("username").asText());
+                System.out.println(rootNode.get("password").asText());
+                System.out.println(rootNode.get("func").asText());
+                
+
+                switch (rootNode.get("func").asText()) {
                     case "signin":
-                        String username = inputStream.readUTF();
-                        String password = inputStream.readUTF();
+                        String username = rootNode.get("username").asText();
+                        String password = rootNode.get("password").asText();
                         Player player = logInPlayer(username, password);
                         System.out.println("playerobject Username before send : " + player.getUsername());
                         System.out.println("playerobject Password before send : " + player.getPassword());
@@ -74,9 +93,7 @@ public class ClientHandler implements Runnable {
 
                         break;
                     case "signup":
-                        String newUser = inputStream.readUTF();
-                        String newPassword = inputStream.readUTF();
-                        boolean added = signUpPlayer(newUser, newPassword);
+                        boolean added = signUpPlayer(rootNode.get("username").asText(), rootNode.get("password").asText());
                         outputStream.writeBoolean(added);
 
                         break;
