@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.CustomException.IncorrectPasswordException;
+import model.CustomException.PlayerNotFoundException;
 import org.apache.derby.jdbc.ClientDriver;
 
 /**
@@ -51,7 +53,7 @@ public class DataAccessLayer {
         return rst;
     }
 
-    public Player checkPlayerExists(String username, String password) throws SQLException {
+    public Player checkPlayerExists(String username, String password) throws SQLException, IncorrectPasswordException, PlayerNotFoundException {
         String tableName = "PLAYER";
         Player player = null;
         try {
@@ -75,10 +77,10 @@ public class DataAccessLayer {
                 if (dbPassword.equals(password)) {
                     player = new Player(username, password);
                 } else {
-                    throw new SQLException("Incorrect password!");
+                throw new IncorrectPasswordException();
                 }
             } else {
-                throw new SQLException("Player not found!");
+                 throw new PlayerNotFoundException();
             }
         } catch (SQLException ex) {
             System.out.println("Error selecting record from " + tableName + ": " + ex.getMessage());
