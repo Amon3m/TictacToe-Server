@@ -25,6 +25,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jdk.nashorn.internal.parser.JSONParser;
+import model.CustomException;
 import model.Player;
 
 /**
@@ -39,6 +40,8 @@ public class ClientHandler implements Runnable {
     private DataOutputStream outputStream;
     private ObjectOutputStream outputObjectStream;
     DataAccessLayer dataAccessLayer;
+     Player player;
+
 
     public ClientHandler(Socket socket, DataAccessLayer dataAccessLayer) {
         try {
@@ -81,9 +84,9 @@ public class ClientHandler implements Runnable {
                     case "signin":
                         String username = rootNode.get("username").asText();
                         String password = rootNode.get("password").asText();
-                        Player player = logInPlayer(username, password);
-                        System.out.println("playerobject Username before send : " + player.getUsername());
-                        System.out.println("playerobject Password before send : " + player.getPassword());
+                        player = logInPlayer(username, password);
+                        System.out.println("playerobject Username before send : " + player.getStatus());
+                        System.out.println("playerobject Password before send : " + player.getStatus());
                         outputObjectStream.writeObject(player);
                         break;
                     case "signup":
@@ -149,20 +152,39 @@ public class ClientHandler implements Runnable {
         }
 
     }
+private Player logInPlayer(String username, String password) throws SQLException {
+        try {
+            System.out.println("USER try to login");
 
-    //Edit this
-    private Player logInPlayer(String username, String password) throws SQLException {
-        System.out.println("USER try to login");
+            player = dataAccessLayer.checkPlayerExists(username, password);
+            player.setStatus(1);
+            if (player.equals(null)) {
 
-        Player rePlayer = dataAccessLayer.checkPlayerExists(username, password);
-        if (rePlayer.equals(null)) {
+                System.out.println("logInPlayer not success");
 
-            System.out.println("logInPlayer not success");
+            } else {
+                System.out.println("logInPlayer success");
+            }
+            return player;
+        } catch (CustomException.IncorrectPasswordException ex) {
+            player = new Player();
+            player.setStatus(0);
+            
 
-        } else {
-            System.out.println("logInPlayer success");
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CustomException.PlayerNotFoundException ex) {
+             
+            player = new Player();
+            player.setStatus(-1);
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            return player;
+
         }
-        return rePlayer;
-    }
 
+    }
+    
+    
+    
+    
 }
