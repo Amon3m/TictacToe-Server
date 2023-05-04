@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Wed May 03 19:41:14 AST 2023 Thread[Thread-5,5,main] Cleanup action starting
 java.sql.SQLException: Failed to start database 'tictactoedb' with class loader sun.misc.Launcher$AppClassLoader@55f96302, see the next exception for details.
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.getSQLException(Unknown Source)
@@ -223,3 +224,18 @@ ERROR XSDB6: Another instance of Derby may have already booted the database C:\U
 	at java.lang.Thread.run(Thread.java:748)
 ============= end nested exception, level (3) ===========
 Cleanup action completed
+=======
+----------------------------------------------------------------
+Wed May 03 18:32:11 EET 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0187-e274-ff56-000006ddc118 
+on database directory C:\Users\Bassem\Desktop\TictacToe-Server\tictactoedb with class loader sun.misc.Launcher$AppClassLoader@55f96302 
+Loaded from file:/C:/Users/Bassem/Desktop/TictacToe-Server/dist/run812891839/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_202-b08
+user.dir=C:\Users\Bassem\Desktop\TictacToe-Server
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+>>>>>>> 57fcd027bade482d0e6bf8fa58780f00cd7caf2e
