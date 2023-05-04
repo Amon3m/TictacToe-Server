@@ -82,6 +82,7 @@ public class ClientHandler implements Runnable {
                         String username = rootNode.get("username").asText();
                         String password = rootNode.get("password").asText();
                         Player player = logInPlayer(username, password);
+
                         System.out.println("playerobject Username before send : " + player.getUsername());
                         System.out.println("playerobject Password before send : " + player.getPassword());
                         outputObjectStream.writeObject(player);
