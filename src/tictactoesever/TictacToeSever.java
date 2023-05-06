@@ -62,7 +62,7 @@ public class TictacToeSever extends Application {
            }
 
         };
-        new Thread(serverTask).start();
+        new Thread(serverTask).start(); //make thread for server
 
 
 

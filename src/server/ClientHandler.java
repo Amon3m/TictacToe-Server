@@ -104,10 +104,12 @@ public class ClientHandler implements Runnable {
             e.printStackTrace();
         } catch (SQLException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Sql Exc000");
         } finally {
             try {
                 socket.close();
             } catch (IOException e) {
+                System.out.println("ioe Exc");
                 e.printStackTrace();
             }
         }
