@@ -1,4 +1,5 @@
 ----------------------------------------------------------------
+<<<<<<< HEAD
 Sat May 06 15:22:11 EET 2023:
 Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0187-f13a-1cdf-00000caacac8 
 on database directory D:\ITI Android\Java\Project\TictacToe-Server\tictactoedb with class loader sun.misc.Launcher$AppClassLoader@55f96302 
@@ -6,6 +7,15 @@ Loaded from file:/D:/ITI%20Android/Java/Project/TictacToe-Server/dist/run4792608
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_331-b09
 user.dir=D:\ITI Android\Java\Project\TictacToe-Server
+=======
+Sat May 06 16:15:14 EET 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0187-f16a-b4d9-00000cb2e7d8 
+on database directory C:\Users\moham\Documents\NetBeansProjects\TictacToe-Server\tictactoedb with class loader sun.misc.Launcher$AppClassLoader@55f96302 
+Loaded from file:/C:/Users/moham/Documents/NetBeansProjects/TictacToe-Server/dist/run245384939/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_202-b08
+user.dir=C:\Users\moham\Documents\NetBeansProjects\TictacToe-Server
+>>>>>>> 10b0b7faf534c4d84b96b606c641f967f1a94b8f
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0
