@@ -52,18 +52,6 @@ public class TictacToeSever extends Application {
         stage.setMaxWidth(800);
         stage.setMaxHeight(600);
 
-        Task<Void> serverTask = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                Server server = Server.getInstance();
-                server.startServer();
-
-                return null;
-            }
-
-        };
-        new Thread(serverTask).start();
-
     }
 
     /**

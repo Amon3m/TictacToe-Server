@@ -11,6 +11,9 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringBinding;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,7 +45,8 @@ public class MainServerController implements Initializable {
     private ToggleButton onServerBtn;
     @FXML
     private AnchorPane parent;
-    private boolean running = true;
+    //private boolean running = false;
+    private SimpleBooleanProperty running = new SimpleBooleanProperty(false);
 
     /**
      * Initializes the controller class.
@@ -74,38 +78,30 @@ public class MainServerController implements Initializable {
 
     @FXML
     private void toggleOnClick(ActionEvent event) {
-
         ToggleButton onClick = (ToggleButton) event.getSource();
-        if (running) {
-
-            onClick.setText("Server is Off");
-            running = false;
-
-        } else {
-
+        if (!running.get()) {
             onClick.setText("Server is On");
-            running = true;
-
+        } else {
+            onClick.setText("Server is Off");
         }
-        toggleServer();
+        running.set(!running.getValue());
 
+        toggleServer();
     }
 
     private void toggleServer() {
-
         Task<Void> serverTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 Server server = Server.getInstance();
-                if (running) {
+                if (running.get()) {
                     server.startServer();
+
                 } else {
                     server.stopServer();
                 }
-
                 return null;
             }
-
         };
         new Thread(serverTask).start();
     }
@@ -126,7 +122,6 @@ public class MainServerController implements Initializable {
 
     }
 
-    @FXML
     private void goToServerChart(ActionEvent event) throws IOException {
         navigate(event, "serverChart.fxml");
     }
