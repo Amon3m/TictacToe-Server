@@ -72,14 +72,14 @@ public class ClientHandler implements Runnable {
             while (!socket.isClosed()) {
 
                 String requestType = inputStream.readUTF();
-                System.out.println(requestType);
+                System.out.println("request type+arguments"+requestType);
 
                 ObjectMapper objectMapper = new ObjectMapper();
 
                 JsonNode rootNode = objectMapper.readTree(requestType);
-                System.out.println(rootNode.get("username").asText());
+                /*System.out.println(rootNode.get("username").asText());
                 System.out.println(rootNode.get("password").asText());
-                System.out.println(rootNode.get("func").asText());
+                System.out.println(rootNode.get("func").asText());*/
 
                 switch (rootNode.get("func").asText()) {
                     case "signin":
@@ -119,7 +119,20 @@ public class ClientHandler implements Runnable {
                         //JsonObject inviteResponse=new JsonObject();
                         String player1=rootNode.get("player1").asText();
                         String player2=rootNode.get("player2").asText();
+                        System.out.println("from server player1 "+player1+" invite player2 "+player2);
                         invitePlayer(player1,player2);
+                        
+                        break;
+                        case "replyToInvite":
+                        // handle whatever request
+                        //JsonObject inviteResponse=new JsonObject();
+                        String sender=rootNode.get("senderUsername").asText();
+                        String reply=rootNode.get("reply").asText();
+                        String reciever=rootNode.get("recievererUsername").asText();
+                        
+                        System.out.println("from server player2 "+reciever+" reciver from  "+sender);
+                        
+                        
                         break;
                     default:
                         // handle unknown request type
@@ -237,6 +250,7 @@ public class ClientHandler implements Runnable {
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("head", "inviteRequest");
                     jsonObject.addProperty("player1", player1);
+                    jsonObject.addProperty("player2", player2);
                     String jsonString = new Gson().toJson(jsonObject);
                     
                     clientHandler.outputStream.writeUTF(jsonString);
