@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 import java.net.Socket;
+import java.net.SocketException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
@@ -113,8 +114,12 @@ public class ClientHandler implements Runnable {
 //                        outputStream.writeBoolean(added);
                         break;
 
-                    case "whatever":
+                    case "invite":
                         // handle whatever request
+                        //JsonObject inviteResponse=new JsonObject();
+                        String player1=rootNode.get("player1").asText();
+                        String player2=rootNode.get("player2").asText();
+                        invitePlayer(player1,player2);
                         break;
                     default:
                         // handle unknown request type
@@ -126,7 +131,7 @@ public class ClientHandler implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Sql Exc000");
             closeEverything();
         }
@@ -220,6 +225,31 @@ public class ClientHandler implements Runnable {
             }
         }
 
+    }
+
+    private void invitePlayer(String player1, String player2) {
+        
+        for(ClientHandler clientHandler:clientHandlers)
+        {
+            if(clientHandler.player.getUsername().equals(player2))
+            {
+                try {
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("head", "inviteRequest");
+                    jsonObject.addProperty("player1", player1);
+                    String jsonString = new Gson().toJson(jsonObject);
+                    
+                    clientHandler.outputStream.writeUTF(jsonString);
+                    //return true;
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+                    
+                }
+                
+                
+            }
+        }
+        //return false;
     }
 
 }

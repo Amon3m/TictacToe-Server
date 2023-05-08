@@ -2,19 +2,9 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
-        <group/>
-=======
-<<<<<<< HEAD
         <group>
-            <file>file:/C:/Users/moham/Documents/NetBeansProjects/TictacToe-Server/src/server/ClientHandler.java</file>
-            <file>file:/C:/Users/moham/Documents/NetBeansProjects/TictacToe-Server/src/tictactoesever/TictacToeSever.java</file>
-            <file>file:/C:/Users/moham/Documents/NetBeansProjects/TictacToe-Server/src/server/Server.java</file>
-            <file>file:/C:/Users/moham/Documents/NetBeansProjects/TictacToe-Server/src/database/DataAccessLayer.java</file>
+            <file>file:/D:/ITI%20Android/Java/Project/TictacToe-Server/src/server/ClientHandler.java</file>
+            <file>file:/D:/ITI%20Android/Java/Project/TictacToe-Server/src/tictactoesever/TictacToeSever.java</file>
         </group>
-=======
-        <group/>
->>>>>>> 00bf65fdc75201af0924544bbba01c00f331d513
->>>>>>> 10b0b7faf534c4d84b96b606c641f967f1a94b8f
     </open-files>
 </project-private>
