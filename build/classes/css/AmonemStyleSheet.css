@@ -71,7 +71,8 @@ and open the template in the editor.
     -fx-text-fill: white;
       -fx-border-color: red;
           -fx-border-radius: 10px;
-
+            height: 50px;
+             width: 50px;
 
 
     

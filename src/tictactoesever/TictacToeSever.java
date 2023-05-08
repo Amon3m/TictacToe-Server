@@ -12,6 +12,7 @@ import java.net.ServerSocket;
 import java.util.Iterator;
 import java.util.List;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,22 +26,22 @@ import server.Server;
  * @author ahmed
  */
 public class TictacToeSever extends Application {
-    
+
     Server server;
     Stage stage;
 
-    
     @Override
     public void start(Stage stage) throws Exception {
 
-
-       
         Parent root = FXMLLoader.load(getClass().getResource("MainServer.fxml"));
-        
-         Scene scene = new Scene(root, 800, 600);
 
+        Scene scene = new Scene(root, 800, 600);
 
-        
+        stage.setOnCloseRequest(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
+
         stage.setScene(scene);
         stage.show();
 
@@ -50,23 +51,18 @@ public class TictacToeSever extends Application {
         stage.setMinHeight(600);
         stage.setMaxWidth(800);
         stage.setMaxHeight(600);
-        
 
-        Task<Void> serverTask = new Task<Void>(){
-           @Override
-           protected Void call() throws Exception {
+        Task<Void> serverTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
                 Server server = Server.getInstance();
                 server.startServer();
 
                 return null;
-           }
+            }
 
         };
         new Thread(serverTask).start();
-
-
-
-        
 
     }
 
@@ -76,14 +72,6 @@ public class TictacToeSever extends Application {
     public static void main(String[] args) throws IOException {
         launch(args);
 
-
-        
-
     }
-    
 
-    
 }
-
-
-

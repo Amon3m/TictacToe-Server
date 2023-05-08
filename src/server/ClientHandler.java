@@ -8,6 +8,7 @@ package server;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -35,20 +36,18 @@ import model.Player;
 public class ClientHandler implements Runnable {
 
     public static Vector<ClientHandler> clientHandlers = new Vector<>();
+    public static Vector<Player> onlinePlayers = new Vector<>();
     private Socket socket;
     private DataInputStream inputStream;
     private DataOutputStream outputStream;
-    private ObjectOutputStream outputObjectStream;
     DataAccessLayer dataAccessLayer;
-     Player player;
-
+    Player player;
 
     public ClientHandler(Socket socket, DataAccessLayer dataAccessLayer) {
         try {
             this.socket = socket;
             this.inputStream = new DataInputStream(socket.getInputStream());
             this.outputStream = new DataOutputStream(socket.getOutputStream());
-            this.outputObjectStream = new ObjectOutputStream(socket.getOutputStream());
             this.dataAccessLayer = dataAccessLayer;
             clientHandlers.add(this);
 
@@ -75,10 +74,9 @@ public class ClientHandler implements Runnable {
                 ObjectMapper objectMapper = new ObjectMapper();
 
                 JsonNode rootNode = objectMapper.readTree(requestType);
-                System.out.println(rootNode.get("username").asText());
-                System.out.println(rootNode.get("password").asText());
-                System.out.println(rootNode.get("func").asText());
-                
+//                System.out.println(rootNode.get("username").asText());
+//                System.out.println(rootNode.get("password").asText());
+//                System.out.println(rootNode.get("func").asText());
 
                 switch (rootNode.get("func").asText()) {
                     case "signin":
@@ -87,12 +85,32 @@ public class ClientHandler implements Runnable {
                         player = logInPlayer(username, password);
                         System.out.println("playerobject Username before send : " + player.getStatus());
                         System.out.println("playerobject Password before send : " + player.getStatus());
-                        outputObjectStream.writeObject(player);
+
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("head", "loginResponse");
+                        jsonObject.addProperty("username", player.getUsername());
+                        jsonObject.addProperty("password", player.getPassword());
+                        jsonObject.addProperty("status", player.getStatus());
+
+                        Gson gson = new Gson();
+                        outputStream.writeUTF(gson.toJson(jsonObject));
+
+                        onlinePlayers.add(player);
+                        broadcastOnLinePlayers();
+
+//                        outputObjectStream.writeObject(player);
                         break;
                     case "signup":
-                        boolean added = signUpPlayer(rootNode.get("username").asText(), rootNode.get("password").asText());
-                        outputStream.writeBoolean(added);
 
+                        boolean added = signUpPlayer(rootNode.get("username").asText(),
+                                rootNode.get("password").asText());
+                        JsonObject signupResponseJsonObject = new JsonObject();
+                        signupResponseJsonObject.addProperty("head", "signupResponse");
+                        signupResponseJsonObject.addProperty("result", added);
+                        String signupResponseJsonString = new Gson().toJson(signupResponseJsonObject);
+                        outputStream.writeUTF(signupResponseJsonString);
+
+                        // outputStream.writeBoolean(added);
                         break;
                     case "whatever":
                         // handle closing of connection
@@ -103,16 +121,8 @@ public class ClientHandler implements Runnable {
                 }
 
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SQLException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            closeEverything();
         }
 
     }
@@ -120,6 +130,9 @@ public class ClientHandler implements Runnable {
     //method to remove the clientHandler
     public void removeClientHandler() {
         clientHandlers.remove(this);
+        onlinePlayers.remove(player);
+
+        broadcastOnLinePlayers();
     }
 
     public void closeEverything() {
@@ -152,7 +165,8 @@ public class ClientHandler implements Runnable {
         }
 
     }
-private Player logInPlayer(String username, String password) throws SQLException {
+
+    private Player logInPlayer(String username, String password) throws SQLException {
         try {
             System.out.println("USER try to login");
 
@@ -169,11 +183,10 @@ private Player logInPlayer(String username, String password) throws SQLException
         } catch (CustomException.IncorrectPasswordException ex) {
             player = new Player();
             player.setStatus(0);
-            
 
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         } catch (CustomException.PlayerNotFoundException ex) {
-             
+
             player = new Player();
             player.setStatus(-1);
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -183,8 +196,24 @@ private Player logInPlayer(String username, String password) throws SQLException
         }
 
     }
-    
-    
-    
-    
+
+    public void broadcastOnLinePlayers() {
+
+        for (ClientHandler clientHandler : clientHandlers) {
+            try {
+                JsonObject jsonObject = new JsonObject();
+                JsonArray jsonArray = new Gson().toJsonTree(onlinePlayers).getAsJsonArray();
+                jsonObject.addProperty("head", "onlineplayersResponse");
+                jsonObject.add("playerslist", jsonArray);
+                String jsonString = new Gson().toJson(jsonObject);
+
+                clientHandler.outputStream.writeUTF(jsonString);
+
+            } catch (IOException e) {
+                System.out.println("ok great!");
+            }
+        }
+
+    }
+
 }

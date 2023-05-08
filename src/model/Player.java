@@ -19,6 +19,9 @@ public class Player implements Serializable{
     private int status;
 
     public Player() {
+        this.username= "";
+        this.password = "";
+        
     }
 
     public Player(String username, String password) {
