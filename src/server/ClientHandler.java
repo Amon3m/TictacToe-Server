@@ -76,9 +76,9 @@ public class ClientHandler implements Runnable {
                 ObjectMapper objectMapper = new ObjectMapper();
 
                 JsonNode rootNode = objectMapper.readTree(requestType);
-                System.out.println(rootNode.get("username").asText());
-                System.out.println(rootNode.get("password").asText());
-                System.out.println(rootNode.get("func").asText());
+//                System.out.println(rootNode.get("username").asText());
+//                System.out.println(rootNode.get("password").asText());
+//                System.out.println(rootNode.get("func").asText());
 
                 switch (rootNode.get("func").asText()) {
                     case "signin":
@@ -103,6 +103,7 @@ public class ClientHandler implements Runnable {
 //                        outputObjectStream.writeObject(player);
                         break;
                     case "signup":
+                        
                         boolean added = signUpPlayer(rootNode.get("username").asText(), rootNode.get("password").asText());
                         JsonObject signupResponseJsonObject = new JsonObject();
                         signupResponseJsonObject.addProperty("head", "signupResponse");
@@ -112,6 +113,16 @@ public class ClientHandler implements Runnable {
 
 //                        outputStream.writeBoolean(added);
                         break;
+                        
+                    case "invite":
+                        // handle whatever request
+                        //JsonObject inviteResponse=new JsonObject();
+                        System.out.println("IVITE SENT TO SERVER");
+                        String player1=rootNode.get("player1").asText();
+                        String player2=rootNode.get("player2").asText();
+                        invitePlayer(player2);
+                        break;
+
 
                     case "whatever":
                         // handle whatever request
@@ -123,6 +134,8 @@ public class ClientHandler implements Runnable {
 
             }
         } catch (Exception e) {
+//            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, e);
+
             closeEverything();
         }
 
@@ -204,6 +217,34 @@ public class ClientHandler implements Runnable {
             }
         }
 
+    }
+    
+       private void invitePlayer(String player2) {
+
+        for(ClientHandler clientHandler:clientHandlers)
+        {
+            if(clientHandler.player.getUsername().equals(player2))
+                
+            {
+                try {
+                    System.out.println("invitePlayer in server" + player2);
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("head", "inviteRequest");
+                    jsonObject.addProperty("player1", this.player.getUsername());
+                    String jsonString = new Gson().toJson(jsonObject);
+
+                    System.out.println(clientHandler.player.getUsername() +  "sending a request ");
+                    clientHandler.outputStream.writeUTF(jsonString);
+                    //return true;
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+
+                }
+
+
+            }
+        }
+        //return false;
     }
 
 }
