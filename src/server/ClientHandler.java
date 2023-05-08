@@ -129,6 +129,7 @@ public class ClientHandler implements Runnable {
                         String sender=rootNode.get("senderUsername").asText();
                         String reply=rootNode.get("reply").asText();
                         String reciever=rootNode.get("recievererUsername").asText();
+                        checkAcceptence(sender,reciever,reply);
                         
                         System.out.println("from server player2 "+reciever+" reciver from  "+sender);
                         
@@ -264,6 +265,31 @@ public class ClientHandler implements Runnable {
             }
         }
         //return false;
+    }
+
+    private void checkAcceptence(String sender, String reciever, String reply) { 
+        for(ClientHandler clientHandler:clientHandlers)
+        {
+        if(clientHandler.player.getUsername().equals(reciever))
+            {
+                try {
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("head", "checkAcceptance");
+                    jsonObject.addProperty("sender", sender);
+                    jsonObject.addProperty("reciever", reciever);
+                    jsonObject.addProperty("reply", reply);
+                    String jsonString = new Gson().toJson(jsonObject);
+                    
+                    clientHandler.outputStream.writeUTF(jsonString);
+                    //return true;
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+                    
+                }
+                
+                
+            }
+    }
     }
 
 }
