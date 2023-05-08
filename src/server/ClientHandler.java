@@ -270,7 +270,7 @@ public class ClientHandler implements Runnable {
     private void checkAcceptence(String sender, String reciever, String reply) { 
         for(ClientHandler clientHandler:clientHandlers)
         {
-        if(clientHandler.player.getUsername().equals(reciever))
+        if(clientHandler.player.getUsername().equals(reciever)||clientHandler.player.getUsername().equals(sender))
             {
                 try {
                     JsonObject jsonObject = new JsonObject();
