@@ -58,6 +58,7 @@ public class Server {
         try {
             // Check if serverSocket is null or closed
             if (serverSocket == null || serverSocket.isClosed()) {
+                //System.out.println("Not NOW!!!!!!!!");
                 // Create new ServerSocket object
                 serverSocket = new ServerSocket(port);
             }
