@@ -46,7 +46,7 @@ public class ServerChartController implements Initializable {
                         new PieChart.Data("Online",Integer.parseInt("5") ),
                         new PieChart.Data("Offline", 3),
                         new PieChart.Data("In Game", 4));
-          for (PieChart.Data data : pieChartData) {
+         for (PieChart.Data data : pieChartData) {
     data.nameProperty().bind(
             Bindings.concat(
                     data.getName(), " : ", data.pieValueProperty()

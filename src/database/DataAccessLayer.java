@@ -37,9 +37,11 @@ public class DataAccessLayer {
         int rst = 0;
         try {
             connection = databaseHandler.createConnection();
-            preparedStatement = connection.prepareStatement("INSERT INTO PLAYER (Username,Password) VALUES (?,?)");
+            preparedStatement = connection.prepareStatement("INSERT INTO PLAYER (Username,Password,ImagePath) VALUES (?,?,?)");
             preparedStatement.setString(1, player.getUsername());
             preparedStatement.setString(2, player.getPassword());
+            preparedStatement.setString(3, player.getImagePath());
+
             rst = preparedStatement.executeUpdate();
             connection.close();
         } catch (SQLException ex) {
@@ -74,8 +76,10 @@ public class DataAccessLayer {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 String dbPassword = resultSet.getString("Password");
+                String dbImage = resultSet.getString("ImagePath");
+
                 if (dbPassword.equals(password)) {
-                    player = new Player(username, password);
+                    player = new Player(username, password,dbImage);
                 } else {
                 throw new IncorrectPasswordException();
                 }
