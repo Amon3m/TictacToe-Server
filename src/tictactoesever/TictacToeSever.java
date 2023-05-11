@@ -52,6 +52,7 @@ public class TictacToeSever extends Application {
         stage.setMaxWidth(800);
         stage.setMaxHeight(600);
 
+
     }
 
     /**
