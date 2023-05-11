@@ -91,7 +91,7 @@ public class ClientHandler implements Runnable {
                         jsonObject.addProperty("username", player.getUsername());
                         jsonObject.addProperty("password", player.getPassword());
                         jsonObject.addProperty("status", player.getStatus());
-
+                        jsonObject.addProperty("ImagePath", player.getImagePath());
                         Gson gson = new Gson();
                         outputStream.writeUTF(gson.toJson(jsonObject));
 
@@ -103,7 +103,7 @@ public class ClientHandler implements Runnable {
                     case "signup":
 
                         boolean added = signUpPlayer(rootNode.get("username").asText(),
-                                rootNode.get("password").asText());
+                                rootNode.get("password").asText(),rootNode.get("ImagePath").asText());
                         JsonObject signupResponseJsonObject = new JsonObject();
                         signupResponseJsonObject.addProperty("head", "signupResponse");
                         signupResponseJsonObject.addProperty("result", added);
@@ -153,9 +153,9 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private boolean signUpPlayer(String username, String password) {
+    private boolean signUpPlayer(String username, String password,String ImagePath) {
         try {
-            Player player = new Player(username, password);
+            Player player = new Player(username, password,ImagePath);
             int res = dataAccessLayer.insert(player);
             return res > 0;
 

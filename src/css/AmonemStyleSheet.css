@@ -11,6 +11,14 @@ and open the template in the editor.
 
 /* Style the game board */
 
+.btn{
+    -fx-background-color: linear-gradient(to right, #59DFFF, #788CFE);
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-pref-width: 250px;
+    -fx-pref-height: 30px;
+}
+
 .label1 {
     -fx-font-family: "Comic Sans MS";
     -fx-font-size: 18px;
