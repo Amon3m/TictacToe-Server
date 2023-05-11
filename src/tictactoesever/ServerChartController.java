@@ -45,7 +45,7 @@ public class ServerChartController implements Initializable {
     private int allUsers;
     private int offlinePlayers;
     private int onlinePlayers;
-    private int inGamePlayers=0;
+    private int inGamePlayers;
     private DataAccessLayer dataAccessLayer = new DataAccessLayer();
     ;
 
@@ -55,7 +55,7 @@ public class ServerChartController implements Initializable {
      ObservableList<PieChart.Data> pieChartData= FXCollections.observableArrayList(
                         new PieChart.Data("Online", onlinePlayers),
                         new PieChart.Data("Offline", offlinePlayers),
-                        new PieChart.Data("In Game", 0));
+                        new PieChart.Data("In Game",inGamePlayers ));
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
