@@ -150,10 +150,10 @@ public class ClientHandler implements Runnable {
                          System.out.println("from server player2 " + p2 + " player from  " + p1+"owner "+owner+"counter" + counter);
                         break;
                     case "inGame":
-                        this.player.setIngame(true);
+                        this.player.setInGame(true);
                         break;  
                     case "outGame":
-                        this.player.setIngame(false);
+                        this.player.setInGame(false);
                         break;                        
                     default:
                         // handle unknown request type
