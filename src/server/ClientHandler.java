@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import jdk.nashorn.internal.parser.JSONParser;
 import model.CustomException;
 import model.Player;
@@ -79,12 +80,12 @@ public class ClientHandler implements Runnable {
 
                 JsonNode rootNode = objectMapper.readTree(requestType);
 
-
                 switch (rootNode.get("func").asText()) {
                     case "signin":
                         String username = rootNode.get("username").asText();
                         String password = rootNode.get("password").asText();
                         player = logInPlayer(username, password);
+                        player.setInGame(false);
 
                         System.out.println("playerobject Username before send : " + player.getStatus());
                         System.out.println("playerobject Password before send : " + player.getStatus());
@@ -108,19 +109,15 @@ public class ClientHandler implements Runnable {
                         jsonObject.addProperty("ImagePath", player.getImagePath());
 
 
-
                         Gson gson = new Gson();
                         outputStream.writeUTF(gson.toJson(jsonObject));
-
-                        onlinePlayers.add(player);
-                        broadcastOnLinePlayers();
 
 //                        outputObjectStream.writeObject(player);
                         break;
                     case "signup":
 
                         boolean added = signUpPlayer(rootNode.get("username").asText(),
-                                rootNode.get("password").asText(),rootNode.get("ImagePath").asText());
+                                rootNode.get("password").asText(), rootNode.get("ImagePath").asText());
                         JsonObject signupResponseJsonObject = new JsonObject();
                         signupResponseJsonObject.addProperty("head", "signupResponse");
                         signupResponseJsonObject.addProperty("result", added);
@@ -157,14 +154,18 @@ public class ClientHandler implements Runnable {
                         String owner = rootNode.get("owner").asText();
                         String counter = rootNode.get("counter").asText();
                         play(p1, p2, move, owner, counter);
-                         System.out.println("from server player2 " + p2 + " player from  " + p1+"owner "+owner+"counter" + counter);
+                        System.out.println("from server player2 " + p2 + " player from  " + p1 + "owner " + owner + "counter" + counter);
                         break;
                     case "inGame":
                         this.player.setInGame(true);
-                        break;  
+                        notifyPlayersListWithPlayerInOrOutOfGame(true);
+
+                        break;
                     case "outGame":
                         this.player.setInGame(false);
-                        break;                        
+                        notifyPlayersListWithPlayerInOrOutOfGame(false);
+
+                        break;
                     default:
                         // handle unknown request type
                         break;
@@ -197,6 +198,16 @@ public class ClientHandler implements Runnable {
 
     }
 
+    void notifyPlayersListWithPlayerInOrOutOfGame(boolean isInGame) {
+        for (Player p : onlinePlayers) {
+            if (p.getUsername().equals(player.getUsername())) {
+                p.setInGame(isInGame);
+                break;
+            }
+        }
+        broadcastOnLinePlayers();
+    }
+
     //method to remove the clientHandler
     public void removeClientHandler() {
         clientHandlers.remove(this);
@@ -225,9 +236,9 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private boolean signUpPlayer(String username, String password,String ImagePath) {
+    private boolean signUpPlayer(String username, String password, String ImagePath) {
         try {
-            Player player = new Player(username, password,ImagePath);
+            Player player = new Player(username, password, ImagePath);
             int res = dataAccessLayer.insert(player);
             return res > 0;
 
@@ -250,6 +261,10 @@ public class ClientHandler implements Runnable {
 
             } else {
                 System.out.println("logInPlayer success");
+                
+                onlinePlayers.add(player);
+                broadcastOnLinePlayers();
+
             }
             return player;
         } catch (CustomException.IncorrectPasswordException ex) {
@@ -274,7 +289,11 @@ public class ClientHandler implements Runnable {
         for (ClientHandler clientHandler : clientHandlers) {
             try {
                 JsonObject jsonObject = new JsonObject();
-                JsonArray jsonArray = new Gson().toJsonTree(onlinePlayers).getAsJsonArray();
+                List<Player> filteredPlayers = onlinePlayers.stream()
+                        .filter(player -> !player.isInGame())
+                        .collect(Collectors.toList());
+
+                JsonArray jsonArray = new Gson().toJsonTree(filteredPlayers).getAsJsonArray();
                 jsonObject.addProperty("head", "onlineplayersResponse");
                 jsonObject.add("playerslist", jsonArray);
                 String jsonString = new Gson().toJson(jsonObject);

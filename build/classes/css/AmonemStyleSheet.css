@@ -10,6 +10,17 @@ and open the template in the editor.
 
 
 /* Style the game board */
+
+
+.btn{
+    -fx-background-color: linear-gradient(to right, #59DFFF, #788CFE);
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-pref-width: 250px;
+    -fx-pref-height: 30px;
+}
+
+
 #parent
 {
     -fx-background-image: url("/assets/full_background.png");
