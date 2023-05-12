@@ -44,6 +44,7 @@ public class ClientHandler implements Runnable {
     private DataOutputStream outputStream;
     DataAccessLayer dataAccessLayer;
 
+    String ImagePath;
 
     public ClientHandler(Socket socket, DataAccessLayer dataAccessLayer) {
         try {
@@ -93,9 +94,18 @@ public class ClientHandler implements Runnable {
                         jsonObject.addProperty("username", player.getUsername());
                         jsonObject.addProperty("password", player.getPassword());
                         jsonObject.addProperty("status", player.getStatus());
+                        if (player.getImagePath()==null){
+                            System.out.println("innnn");
+                            System.out.println(player.getImagePath());
 
+                            ImagePath="/assets/avatar.png";             
+                            player.setImagePath(ImagePath);  
+
+                        }
+                         System.out.println("ouut");
+                            System.out.println(player.getImagePath());
+                        
                         jsonObject.addProperty("ImagePath", player.getImagePath());
-
 
 
 
