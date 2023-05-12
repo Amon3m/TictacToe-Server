@@ -95,19 +95,18 @@ public class ClientHandler implements Runnable {
                         jsonObject.addProperty("username", player.getUsername());
                         jsonObject.addProperty("password", player.getPassword());
                         jsonObject.addProperty("status", player.getStatus());
-                        if (player.getImagePath()==null){
+                        if (player.getImagePath() == null) {
                             System.out.println("innnn");
                             System.out.println(player.getImagePath());
 
-                            ImagePath="/assets/avatar.png";             
-                            player.setImagePath(ImagePath);  
+                            ImagePath = "/assets/avatar.png";
+                            player.setImagePath(ImagePath);
 
                         }
-                         System.out.println("ouut");
-                            System.out.println(player.getImagePath());
-                        
-                        jsonObject.addProperty("ImagePath", player.getImagePath());
+                        System.out.println("ouut");
+                        System.out.println(player.getImagePath());
 
+                        jsonObject.addProperty("ImagePath", player.getImagePath());
 
                         Gson gson = new Gson();
                         outputStream.writeUTF(gson.toJson(jsonObject));
@@ -168,6 +167,10 @@ public class ClientHandler implements Runnable {
                         notifyPlayersListWithPlayerInOrOutOfGame(false);
 
                         break;
+                    case "closeclient":
+                        closeEverything();
+                        break;
+
                     default:
                         // handle unknown request type
                         break;
@@ -264,7 +267,7 @@ public class ClientHandler implements Runnable {
 
             } else {
                 System.out.println("logInPlayer success");
-                
+
                 onlinePlayers.add(player);
                 broadcastOnLinePlayers();
 
