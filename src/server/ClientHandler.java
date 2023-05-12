@@ -37,7 +37,7 @@ import model.Player;
 public class ClientHandler implements Runnable {
 
     public static Vector<ClientHandler> clientHandlers = new Vector<>();
-    Player player;
+    public Player player;
     public static Vector<Player> onlinePlayers = new Vector<>();
 
     private Socket socket;
@@ -157,12 +157,14 @@ public class ClientHandler implements Runnable {
                         System.out.println("from server player2 " + p2 + " player from  " + p1 + "owner " + owner + "counter" + counter);
                         break;
                     case "inGame":
-                        this.player.setInGame(true);
+                        player.setInGame(true);
+                        System.out.println("player from in game "+player.getUsername()+player.isInGame());
                         notifyPlayersListWithPlayerInOrOutOfGame(true);
 
                         break;
                     case "outGame":
-                        this.player.setInGame(false);
+                        player.setInGame(false);
+                        System.out.println("player from outgame "+player.getUsername()+player.isInGame());
                         notifyPlayersListWithPlayerInOrOutOfGame(false);
 
                         break;
@@ -207,6 +209,7 @@ public class ClientHandler implements Runnable {
         }
         broadcastOnLinePlayers();
     }
+    
 
     //method to remove the clientHandler
     public void removeClientHandler() {
@@ -282,6 +285,17 @@ public class ClientHandler implements Runnable {
 
         }
 
+    }
+    public static int getInGamePlayers()
+    {
+        int inGamePlayers=0;
+        for (Player p : onlinePlayers) {
+            if (p.isInGame()) {
+                inGamePlayers++;
+            }
+        }
+        
+        return inGamePlayers;
     }
 
     public void broadcastOnLinePlayers() {

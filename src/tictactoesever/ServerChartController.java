@@ -45,10 +45,10 @@ public class ServerChartController implements Initializable {
     private int allUsers;
     private int offlinePlayers;
     private int onlinePlayers;
-    private int inGamePlayers;
+    private int inGamePlayers=0;
+    
     private DataAccessLayer dataAccessLayer = new DataAccessLayer();
-    ;
-
+    List<Player> players;
     /**
      * Initializes the controller class.
      */
@@ -60,29 +60,27 @@ public class ServerChartController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        List<Player> players = dataAccessLayer.getAll();
+        
         //set the first player to be inGame
-        players.get(0).setInGame(true);
+        //players.get(0).setInGame(true);
         //Count the number of inGame players
-        for(int i=0;i<players.size();i++)
-        {
-            if(players.get(i).isInGame())
-            {   inGamePlayers++;
-            }
-        }
-        allUsers = dataAccessLayer.getAll().size();
+        
+        
         pieChart.setData(pieChartData);
 
         
         Timeline timeline = new Timeline(new KeyFrame(javafx.util.Duration.seconds(1), event -> {
+            allUsers = dataAccessLayer.getAll().size();
+            
             // Update the data in the list based on the values of online, offline, and inGame players
             int onlinePlayers = getOnlinePlayers();
             int offlinePlayers = getOfflinePlayers();
-            int unknownPlayers = getInGamePlayers();
+            int inGamePlayers = getInGamePlayers();
 
             pieChartData.get(0).setPieValue(onlinePlayers);
             pieChartData.get(1).setPieValue(offlinePlayers);
-            pieChartData.get(2).setPieValue(unknownPlayers);
+            pieChartData.get(2).setPieValue(inGamePlayers);
+            //inGamePlayers=0;
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
@@ -133,7 +131,8 @@ public class ServerChartController implements Initializable {
     }
 
     private int getInGamePlayers() {
-        return inGamePlayers;
+        
+        return ClientHandler.getInGamePlayers();
     }
 
 }
