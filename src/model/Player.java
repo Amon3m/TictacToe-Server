@@ -23,7 +23,11 @@ public class Player implements Serializable{
         this.password = "";
         
     }
-
+    public Player(String username, String password,String ImagePath) {
+        this.username = username;
+        this.password = password;
+        this.ImagePath=ImagePath;
+    }
     public Player(String username, String password) {
         this.username = username;
         this.password = password;
@@ -39,6 +43,8 @@ public class Player implements Serializable{
         this.score = score;
         this.status = status;
     }
+
+
 
 
     public String getUsername() {
@@ -88,9 +94,6 @@ public class Player implements Serializable{
     public void setInGame(boolean inGame) {
         this.inGame = inGame;
     }
-    
-    
-
    
     
     

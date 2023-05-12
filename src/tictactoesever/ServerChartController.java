@@ -59,6 +59,7 @@ public class ServerChartController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         List<Player> players = dataAccessLayer.getAll();
         //set the first player to be inGame
         players.get(0).setInGame(true);
@@ -71,6 +72,7 @@ public class ServerChartController implements Initializable {
         }
         allUsers = dataAccessLayer.getAll().size();
         pieChart.setData(pieChartData);
+
         
         Timeline timeline = new Timeline(new KeyFrame(javafx.util.Duration.seconds(1), event -> {
             // Update the data in the list based on the values of online, offline, and inGame players
