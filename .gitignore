@@ -4,3 +4,15 @@
 *.dat
 /tictactoedb
 derby.log
+*.properties
+build/built-jar.properties
+*.log
+dist/TictacToeSever.html
+dist/TictacToeSever.jar
+dist/TictacToeSever.jnlp
+dist/web-files/dtjava.js
+nbproject/private/private.properties
+nbproject/private/private.xml
+*.properties
+nbproject/project.properties
+*.log

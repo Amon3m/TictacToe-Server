@@ -1,0 +1,35 @@
+#parent{
+    -fx-background-image: url("/assets/server_background.png");
+    -fx-background-size: cover;
+    
+
+}
+#playerStateBtn{
+-fx-background-color: linear-gradient(to right, #59DFFF, #788CFE);
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-pref-width: 250px;
+    -fx-pref-height: 30px;
+}
+.toggle-button {
+-fx-background-color: linear-gradient(to right, #59DFFF, #788CFE);
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-pref-width: 250px;
+    -fx-pref-height: 30px;
+    -fx-border-radius: 5px;
+     -fx-border-radius: 5px;
+}
+
+.toggle-button:selected {
+-fx-background-color: linear-gradient(to right, #2DA4D4, #4D63B8);
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-pref-width: 250px;
+    -fx-pref-height: 30px;
+    -fx-border-radius: 5px;
+     -fx-border-radius: 5px;
+
+
+}
+

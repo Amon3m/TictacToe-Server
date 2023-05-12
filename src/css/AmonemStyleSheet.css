@@ -11,6 +11,21 @@ and open the template in the editor.
 
 /* Style the game board */
 
+
+.btn{
+    -fx-background-color: linear-gradient(to right, #59DFFF, #788CFE);
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-pref-width: 250px;
+    -fx-pref-height: 30px;
+}
+
+
+#parent
+{
+    -fx-background-image: url("/assets/full_background.png");
+    -fx-background-size:cover;
+}
 .label1 {
     -fx-font-family: "Comic Sans MS";
     -fx-font-size: 18px;
@@ -27,9 +42,9 @@ and open the template in the editor.
 }
 
 .gridpan{
-    
-  -fx-background-color: #A79CDA;
-   -fx-background-radius: 20px 20px 20px 20px;
+
+    -fx-background-color: #A79CDA;
+    -fx-background-radius: 20px 20px 20px 20px;
 
     -fx-padding: 20px;
     -fx-background-color: #A79CDA;
@@ -38,7 +53,7 @@ and open the template in the editor.
     -fx-alignment:CENTER;
     -fx-column-halignment: center;
     -fx-row-valignment: center;
-    
+
 }
 /* Style the game squares */
 .square1 {
@@ -60,21 +75,24 @@ and open the template in the editor.
     -fx-pref-height: 150px;
     -fx-background-size: 10px 10px;
     -fx-padding: 10 20 10 20;
-        -fx-text-fill:#3B1787;
+    -fx-text-fill:#3B1787;
 
 }
 .backbutton{
-    
+
     -fx-graphic: url('/assets/back.png');
-        -fx-background-color: linear-gradient(to right, #59DFFF, #788CFE);
+    -fx-background-color: linear-gradient(to right, #59DFFF, #788CFE);
     -fx-background-radius: 10;
     -fx-text-fill: white;
-      -fx-border-color: red;
-          -fx-border-radius: 10px;
+    -fx-border-color: red;
+    -fx-border-radius: 10px;
+    -fx-pref-width: 2px;
+    -fx-pref-height: 2px;
+    -fx-border-image-width: 5px;
+    -fx-border-image-height: 5px;
 
 
 
-    
 }
 
 .square:hover {
@@ -88,8 +106,8 @@ and open the template in the editor.
 }
 .imageBG{
     fx-background-color: #A79CDA;
-   -fx-background-radius: 20px 20px 20px 20px;
-   
+    -fx-background-radius: 20px 20px 20px 20px;
+
     -fx-padding: 20px;
     -fx-background-color: #A79CDA;
     -fx-border-width: 2px;
@@ -99,23 +117,23 @@ and open the template in the editor.
     -fx-row-valignment: center;
 }
 .toggle-button {
--fx-background-color: linear-gradient(to right, #59DFFF, #788CFE);
+    -fx-background-color: linear-gradient(to right, #59DFFF, #788CFE);
     -fx-background-radius: 10;
     -fx-text-fill: white;
     -fx-pref-width: 250px;
     -fx-pref-height: 30px;
     -fx-border-radius: 5px;
-     -fx-border-radius: 5px;
+    -fx-border-radius: 5px;
 }
 
 .toggle-button:selected {
--fx-background-color: linear-gradient(to right, #2DA4D4, #4D63B8);
+    -fx-background-color: linear-gradient(to right, #2DA4D4, #4D63B8);
     -fx-background-radius: 10;
     -fx-text-fill: white;
     -fx-pref-width: 250px;
     -fx-pref-height: 30px;
     -fx-border-radius: 5px;
-     -fx-border-radius: 5px;
+    -fx-border-radius: 5px;
 
 
 }

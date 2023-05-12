@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 package database;
-import models.Player;
+
+import model.Player;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.CustomException.IncorrectPasswordException;
+import model.CustomException.PlayerNotFoundException;
 import org.apache.derby.jdbc.ClientDriver;
 
 /**
@@ -22,71 +25,112 @@ import org.apache.derby.jdbc.ClientDriver;
  * @author Nouran
  */
 public class DataAccessLayer {
-    
-    private static PreparedStatement preparedStatement=null;
-    private static final String jdbcUrl="jdbc:derby:tictactoedb;create=true";
-    DatabaseHandler databaseHandler=new DatabaseHandler();
-    Connection connection=databaseHandler.createConnection();
-    
-    public int insert(Player player)
-    {
-        
-        String tableName="PLAYER";
-        int rst=0;
+
+    private static PreparedStatement preparedStatement = null;
+    private static final String jdbcUrl = "jdbc:derby:tictactoedb;create=true";
+    DatabaseHandler databaseHandler = new DatabaseHandler();
+    Connection connection = databaseHandler.createConnection();
+
+    public int insert(Player player) {
+
+        String tableName = "PLAYER";
+        int rst = 0;
         try {
-            preparedStatement=connection.prepareStatement("INSERT INTO PLAYER (Username,Password) VALUES (?,?)");
+            connection = databaseHandler.createConnection();
+            preparedStatement = connection.prepareStatement("INSERT INTO PLAYER (Username,Password,ImagePath) VALUES (?,?,?)");
             preparedStatement.setString(1, player.getUsername());
             preparedStatement.setString(2, player.getPassword());
-            rst=preparedStatement.executeUpdate();
+            preparedStatement.setString(3, player.getImagePath());
+
+            rst = preparedStatement.executeUpdate();
             connection.close();
         } catch (SQLException ex) {
             rst = 0;
-            
-            System.out.println("Username " +player.getUsername()+"  already exists!!");
+
+            System.out.println("Username " + player.getUsername() + "  already exists!!");
 
 //            Logger.getLogger(DataAccessLayer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return rst;
     }
-    
-  
-    
-    public List<Player> getAll()
-    {
-        List<Player> players=new ArrayList<Player>();
-        
+
+ public Player checkPlayerExists(String username, String password) throws SQLException, IncorrectPasswordException, PlayerNotFoundException {
+        String tableName = "PLAYER";
+        Player player = null;
         try {
-            //Statement stmt = con.createStatement();
-            PreparedStatement preparedStatement= connection.prepareStatement("SELECT * FROM PLAYER");
-           
-           
-             ResultSet rst= preparedStatement.executeQuery();
-             
-             while(rst.next())
-             {
-                 String firstName=rst.getString(1);
-                 String password=rst.getString(2);
-                 String imagePath=rst.getString(3);
-                 int score=rst.getInt(4);
-                 int status=rst.getInt(5);
-                 Player cont=new Player(firstName, password,imagePath,score,status);
-                // ContactsDTO cont1=new ContactsDTO(rst.getInt(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5), rst.getInt(6));
-                 
-                 players.add(cont);
-             }
+            List<Player> players = getAll();
+            System.out.println("checkPlayerExists getAll");
+            for (int i = 0; i < players.size(); i++) {
+                System.out.println(players.get(i).getUsername());
+                System.out.println(players.get(i).getPassword());
+
+            }
+            System.out.println("user from checkPlayerExists " + username);
+            System.out.println("user from checkPlayerExists " + password);
             
-            connection.close();
+            connection=databaseHandler.createConnection();
 
+            preparedStatement = connection.prepareStatement("SELECT * FROM PLAYER WHERE Username=?");
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String dbPassword = resultSet.getString("Password");
+                String dbImage = resultSet.getString("ImagePath");
 
+                if (dbPassword.equals(password)) {
+                    player = new Player(username, password,dbImage);
+                } else {
+                throw new IncorrectPasswordException();
+                }
+            } else {
+                 throw new PlayerNotFoundException();
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error selecting record from " + tableName + ": " + ex.getMessage());
+            throw ex;
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error closing database connection: " + ex.getMessage());
+                }
+            }
+        }
+        return player;
+    }
+
+   
+
+    public List<Player> getAll() {
+        List<Player> players = new ArrayList<Player>();
+        Connection connection = null;
+        try {
+            connection = databaseHandler.createConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM PLAYER");
+            ResultSet rst = preparedStatement.executeQuery();
+            while (rst.next()) {
+                String firstName = rst.getString(1);
+                String password = rst.getString(2);
+                String imagePath = rst.getString(3);
+                int score = rst.getInt(4);
+                int status = rst.getInt(5);
+                Player cont = new Player(firstName, password, imagePath, score, status);
+                players.add(cont);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(DataAccessLayer.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error closing database connection: " + ex.getMessage());
+                }
+            }
         }
         return players;
+    }
 
-}
-    
-    
-    
-    
 }
