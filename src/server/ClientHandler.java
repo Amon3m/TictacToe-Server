@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import jdk.nashorn.internal.parser.JSONParser;
 import model.CustomException;
 import model.Player;
@@ -43,7 +44,6 @@ public class ClientHandler implements Runnable {
     private DataInputStream inputStream;
     private DataOutputStream outputStream;
     DataAccessLayer dataAccessLayer;
-   
 
     public ClientHandler(Socket socket, DataAccessLayer dataAccessLayer) {
         try {
@@ -72,12 +72,11 @@ public class ClientHandler implements Runnable {
             while (!socket.isClosed()) {
 
                 String requestType = inputStream.readUTF();
-                System.out.println("request type+arguments"+requestType);
+                System.out.println("request type+arguments" + requestType);
 
                 ObjectMapper objectMapper = new ObjectMapper();
 
                 JsonNode rootNode = objectMapper.readTree(requestType);
-
 
                 switch (rootNode.get("func").asText()) {
                     case "signin":
@@ -93,7 +92,6 @@ public class ClientHandler implements Runnable {
                         jsonObject.addProperty("username", player.getUsername());
                         jsonObject.addProperty("password", player.getPassword());
                         jsonObject.addProperty("status", player.getStatus());
-
 
                         Gson gson = new Gson();
                         outputStream.writeUTF(gson.toJson(jsonObject));
@@ -119,23 +117,22 @@ public class ClientHandler implements Runnable {
                     case "invite":
                         // handle whatever request
                         //JsonObject inviteResponse=new JsonObject();
-                        String player1=rootNode.get("player1").asText();
-                        String player2=rootNode.get("player2").asText();
-                        System.out.println("from server player1 "+player1+" invite player2 "+player2);
-                        invitePlayer(player1,player2);
-                        
+                        String player1 = rootNode.get("player1").asText();
+                        String player2 = rootNode.get("player2").asText();
+                        System.out.println("from server player1 " + player1 + " invite player2 " + player2);
+                        invitePlayer(player1, player2);
+
                         break;
-                        case "replyToInvite":
+                    case "replyToInvite":
                         // handle whatever request
                         //JsonObject inviteResponse=new JsonObject();
-                        String sender=rootNode.get("senderUsername").asText();
-                        String reply=rootNode.get("reply").asText();
-                        String reciever=rootNode.get("recievererUsername").asText();
-                        checkAcceptence(sender,reciever,reply);
-                        
-                        System.out.println("from server player2 "+reciever+" reciver from  "+sender);
-                        
-                        
+                        String sender = rootNode.get("senderUsername").asText();
+                        String reply = rootNode.get("reply").asText();
+                        String reciever = rootNode.get("recievererUsername").asText();
+                        checkAcceptence(sender, reciever, reply);
+
+                        System.out.println("from server player2 " + reciever + " reciver from  " + sender);
+
                         break;
                     default:
                         // handle unknown request type
@@ -147,7 +144,7 @@ public class ClientHandler implements Runnable {
         } catch (Exception e) {
             closeEverything();
         }
-/* 
+        /* 
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -165,11 +162,9 @@ public class ClientHandler implements Runnable {
                 System.out.println("ioe Exc");
                 e.printStackTrace();
             }
-*/
-
+         */
 
     }
-    
 
     //method to remove the clientHandler
     public void removeClientHandler() {
@@ -239,12 +234,9 @@ public class ClientHandler implements Runnable {
         } finally {
             return player;
 
-
         }
 
     }
-
-
 
     public void broadcastOnLinePlayers() {
 
@@ -266,14 +258,71 @@ public class ClientHandler implements Runnable {
     }
 
     private void invitePlayer(String player1, String player2) {
-        
-        for(ClientHandler clientHandler:clientHandlers)
-        {
-            if(clientHandler.player.getUsername().equals(player2))
-            {
+
+        for (ClientHandler clientHandler : clientHandlers) {
+            if (clientHandler.player.getUsername().equals(player2)) {
                 try {
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("head", "inviteRequest");
+                    jsonObject.addProperty("player1", player1);
+                    jsonObject.addProperty("player2", player2);
+                    String jsonString = new Gson().toJson(jsonObject);
+
+                    clientHandler.outputStream.writeUTF(jsonString);
+                    //return true;
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+
+                }
+            } else if (clientHandler.player.getUsername().equals(player1)) {
+                try {
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("head", "waitForRespond");
+                    jsonObject.addProperty("player1", player1);
+                    jsonObject.addProperty("player2", player2);
+                    String jsonString = new Gson().toJson(jsonObject);
+
+                    clientHandler.outputStream.writeUTF(jsonString);
+                    //return true;
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+
+                }
+            }
+        }
+        //return false;
+    }
+
+    private void checkAcceptence(String sender, String reciever, String reply) {
+        for (ClientHandler clientHandler : clientHandlers) {
+            if (clientHandler.player.getUsername().equals(reciever) || clientHandler.player.getUsername().equals(sender)) {
+                try {
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("head", "checkAcceptance");
+                    jsonObject.addProperty("sender", sender);
+                    jsonObject.addProperty("reciever", reciever);
+                    jsonObject.addProperty("reply", reply);
+                    String jsonString = new Gson().toJson(jsonObject);
+
+                    clientHandler.outputStream.writeUTF(jsonString);
+                    //return true;
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+
+                }
+
+            }
+        }
+    }
+
+    /*private void waitForResponse(String player1, String player2) {
+        for(ClientHandler clientHandler:clientHandlers)
+        {
+            if(clientHandler.player.getUsername().equals(player1))
+            {
+                try {
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("head", "waitForRespond");
                     jsonObject.addProperty("player1", player1);
                     jsonObject.addProperty("player2", player2);
                     String jsonString = new Gson().toJson(jsonObject);
@@ -283,37 +332,8 @@ public class ClientHandler implements Runnable {
                 } catch (IOException ex) {
                     Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
                     
-                }
-                
-                
+                }  
             }
         }
-        //return false;
-    }
-
-    private void checkAcceptence(String sender, String reciever, String reply) { 
-        for(ClientHandler clientHandler:clientHandlers)
-        {
-        if(clientHandler.player.getUsername().equals(reciever)||clientHandler.player.getUsername().equals(sender))
-            {
-                try {
-                    JsonObject jsonObject = new JsonObject();
-                    jsonObject.addProperty("head", "checkAcceptance");
-                    jsonObject.addProperty("sender", sender);
-                    jsonObject.addProperty("reciever", reciever);
-                    jsonObject.addProperty("reply", reply);
-                    String jsonString = new Gson().toJson(jsonObject);
-                    
-                    clientHandler.outputStream.writeUTF(jsonString);
-                    //return true;
-                } catch (IOException ex) {
-                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-                    
-                }
-                
-                
-            }
-    }
-    }
-
+    }*/
 }
