@@ -99,9 +99,6 @@ public class ClientHandler implements Runnable {
                         Gson gson = new Gson();
                         outputStream.writeUTF(gson.toJson(jsonObject));
 
-                        onlinePlayers.add(player);
-                        broadcastOnLinePlayers();
-
 //                        outputObjectStream.writeObject(player);
                         break;
                     case "signup":
@@ -251,6 +248,10 @@ public class ClientHandler implements Runnable {
 
             } else {
                 System.out.println("logInPlayer success");
+                
+                onlinePlayers.add(player);
+                broadcastOnLinePlayers();
+
             }
             return player;
         } catch (CustomException.IncorrectPasswordException ex) {
