@@ -281,13 +281,13 @@ public class ClientHandler implements Runnable {
             }
             return player;
         } catch (CustomException.IncorrectPasswordException ex) {
-            player = new Player();
+            player = new Player("guest","0");
             player.setStatus(0);
 
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         } catch (CustomException.PlayerNotFoundException ex) {
 
-            player = new Player();
+            player = new Player("guest","0");
             player.setStatus(-1);
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
