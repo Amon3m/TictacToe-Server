@@ -55,7 +55,7 @@ public class DataAccessLayer {
         return rst;
     }
 
- public Player checkPlayerExists(String username, String password) throws SQLException, IncorrectPasswordException, PlayerNotFoundException {
+    public Player checkPlayerExists(String username, String password) throws SQLException, IncorrectPasswordException, PlayerNotFoundException {
         String tableName = "PLAYER";
         Player player = null;
         try {
@@ -68,8 +68,8 @@ public class DataAccessLayer {
             }
             System.out.println("user from checkPlayerExists " + username);
             System.out.println("user from checkPlayerExists " + password);
-            
-            connection=databaseHandler.createConnection();
+
+            connection = databaseHandler.createConnection();
 
             preparedStatement = connection.prepareStatement("SELECT * FROM PLAYER WHERE Username=?");
             preparedStatement.setString(1, username);
@@ -77,14 +77,15 @@ public class DataAccessLayer {
             if (resultSet.next()) {
                 String dbPassword = resultSet.getString("Password");
                 String dbImage = resultSet.getString("ImagePath");
+                int score=resultSet.getInt("Score");
 
                 if (dbPassword.equals(password)) {
-                    player = new Player(username, password,dbImage);
+                    player = new Player(username, password, dbImage,score);
                 } else {
-                throw new IncorrectPasswordException();
+                    throw new IncorrectPasswordException();
                 }
             } else {
-                 throw new PlayerNotFoundException();
+                throw new PlayerNotFoundException();
             }
         } catch (SQLException ex) {
             System.out.println("Error selecting record from " + tableName + ": " + ex.getMessage());
@@ -100,8 +101,6 @@ public class DataAccessLayer {
         }
         return player;
     }
-
-   
 
     public List<Player> getAll() {
         List<Player> players = new ArrayList<Player>();
@@ -133,4 +132,29 @@ public class DataAccessLayer {
         return players;
     }
 
+    public void addScore(String playerID) {
+        String sql = "UPDATE PLAYER SET Score = Score + ? WHERE Username = ?";
+        int scoreToAdd = 100;
+
+        Connection connection = null;
+        try {
+            connection = databaseHandler.createConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, scoreToAdd);
+            preparedStatement.setString(2, playerID);
+            int rowsAffected = preparedStatement.executeUpdate();
+            
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(DataAccessLayer.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error closing database connection: " + ex.getMessage());
+                }
+            }
+        }
+}
 }

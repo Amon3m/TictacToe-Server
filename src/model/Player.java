@@ -32,10 +32,11 @@ public class Player implements Serializable {
         this.password = password;
     }
     
-    public Player(String username, String password,String ImagePath) {
+    public Player(String username, String password,String ImagePath,int score) {
         this.username = username;
         this.password = password;
         this.ImagePath=ImagePath;
+        this.score=score;
     }
     
     public Player(String username, String password, String ImagePath, int score, int status) 

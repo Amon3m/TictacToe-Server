@@ -89,12 +89,16 @@ public class ClientHandler implements Runnable {
 
                         System.out.println("playerobject Username before send : " + player.getStatus());
                         System.out.println("playerobject Password before send : " + player.getStatus());
+                        System.out.println("playerobject score before send : " + player.getScore());
 
                         JsonObject jsonObject = new JsonObject();
                         jsonObject.addProperty("head", "loginResponse");
                         jsonObject.addProperty("username", player.getUsername());
                         jsonObject.addProperty("password", player.getPassword());
                         jsonObject.addProperty("status", player.getStatus());
+                        jsonObject.addProperty("score", player.getScore());
+                        
+                        
                         if (player.getImagePath() == null) {
                             System.out.println("innnn");
                             System.out.println(player.getImagePath());
@@ -170,6 +174,9 @@ public class ClientHandler implements Runnable {
                     case "closeclient":
                         closeEverything();
                         break;
+                    case "addScore":
+                        dataAccessLayer.addScore(rootNode.get("player").asText());
+                        break;    
 
                     default:
                         // handle unknown request type
@@ -244,7 +251,7 @@ public class ClientHandler implements Runnable {
 
     private boolean signUpPlayer(String username, String password, String ImagePath) {
         try {
-            Player player = new Player(username, password, ImagePath);
+            Player player = new Player(username, password, ImagePath,0);
             int res = dataAccessLayer.insert(player);
             return res > 0;
 
