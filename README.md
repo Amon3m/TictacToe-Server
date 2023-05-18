@@ -40,6 +40,17 @@ This project serves as a demonstration of skills acquired in Java programming, n
 
 ## Screenshots
 
+![Screenshot 2023-05-18 204927](https://github.com/Amon3m/TictacToe-Server/assets/112562093/c80c14b2-bfc9-480c-a13d-9f1bc148c2f7)
+![Screenshot 2023-05-18 205150](https://github.com/Amon3m/TictacToe-Server/assets/112562093/7881392e-fd3d-49bb-a9b9-d038bfdaf6ee)
+![Screenshot 2023-05-18 205301](https://github.com/Amon3m/TictacToe-Server/assets/112562093/7250a028-1dec-4fd6-a875-c9f6f8b5458b)
+![Screenshot 2023-05-18 205422](https://github.com/Amon3m/TictacToe-Server/assets/112562093/66a38f43-8e78-4c11-be77-2f27cdca588f)
+![Screenshot 2023-05-18 205513](https://github.com/Amon3m/TictacToe-Server/assets/112562093/a20a7cd0-3c30-4908-b9e5-351495dd6a56)
+![Screenshot 2023-05-18 205555](https://github.com/Amon3m/TictacToe-Server/assets/112562093/6c10b6c2-b002-49b9-93ec-459b9eeb51f8)
+![Screenshot 2023-05-18 205623](https://github.com/Amon3m/TictacToe-Server/assets/112562093/dccb4fe3-43f3-4b24-90c8-a034db3728d7)
+![Screenshot 2023-05-18 205840](https://github.com/Amon3m/TictacToe-Server/assets/112562093/42c60575-3868-494c-822d-0a8fde069b18)
+![Screenshot 2023-05-18 205929](https://github.com/Amon3m/TictacToe-Server/assets/112562093/7c98d5ed-d60d-4667-8a99-91c9f18f6bb4)
+![Screenshot 2023-05-18 210021](https://github.com/Amon3m/TictacToe-Server/assets/112562093/3cda13db-f0ee-42b6-9fe5-645db0081ec2)
+
 ![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
 
 
