@@ -50,9 +50,11 @@ This project serves as a demonstration of skills acquired in Java programming, n
 ![Screenshot 2023-05-18 205840](https://github.com/Amon3m/TictacToe-Server/assets/112562093/42c60575-3868-494c-822d-0a8fde069b18)
 ![Screenshot 2023-05-18 205929](https://github.com/Amon3m/TictacToe-Server/assets/112562093/7c98d5ed-d60d-4667-8a99-91c9f18f6bb4)
 ![Screenshot 2023-05-18 210021](https://github.com/Amon3m/TictacToe-Server/assets/112562093/3cda13db-f0ee-42b6-9fe5-645db0081ec2)
-
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-
+![Screenshot 2023-05-18 210021](https://github.com/Amon3m/TictacToe-Server/assets/112562093/2a787980-a64d-43c4-a9ea-62bc74c0b4c7)
+![Screenshot 2023-05-18 210052](https://github.com/Amon3m/TictacToe-Server/assets/112562093/8c2f9b03-81f6-4898-9533-fa8306f75b32)
+![Screenshot 2023-05-18 210144](https://github.com/Amon3m/TictacToe-Server/assets/112562093/080a7a4a-9d74-4903-b9dc-1f2ba9ee10a6)
+![Screenshot 2023-05-18 210326](https://github.com/Amon3m/TictacToe-Server/assets/112562093/a6011484-00cf-4909-8772-8c3181aa0f21)
+![Screenshot 2023-05-18 210629](https://github.com/Amon3m/TictacToe-Server/assets/112562093/89001991-4767-4cb2-9ce0-7a9557cd1e20)
 
 ## Architecture
 ### Database Management
