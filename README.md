@@ -4,8 +4,6 @@
 ## Overview
 
 
-Overview
-
 This repository contains the implementation of a Tic Tac Toe game developed as a Java project during the Android Mobile Applications Development track at the Intensive Code Camp program held in ITI - Smart Village.
 
 The Tic Tac Toe game features a client/server architecture built using JavaFX. It offers users the opportunity to play against a computer opponent with two distinct difficulty levels or engage in online multiplayer matches with other players on the same network.
